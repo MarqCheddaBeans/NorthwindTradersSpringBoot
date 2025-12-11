@@ -16,13 +16,13 @@ public class FilmApp implements CommandLineRunner {
     //we are asking spring to inject a filmdao here
     //this is an example of dependency injection and inversion control
     @Autowired
-    @Qualifier ("JbdcDao")
+    @Qualifier ("jbdcFilmDao")
     private IFilmDao filmDao;
+
+    public static Scanner scan = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception{
-
-        Scanner scan = new Scanner(System.in);
 
         while(true){
 
@@ -38,7 +38,8 @@ public class FilmApp implements CommandLineRunner {
                     displayAllFilms();
                     break;
                 case(2):
-                    System.out.println("Add a film");
+                    scan.nextLine();
+                    addFilm();
                     break;
                 case(3):
                     System.out.println("Bye");
@@ -58,16 +59,23 @@ public class FilmApp implements CommandLineRunner {
 
     private void addFilm(){
 
-        System.out.println("""
-                Add A Film
-              
-                """);
+        System.out.print("\nEnter film title: ");
+        String title = scan.nextLine();
 
+        // Ask the user for the film's rental rate.
+        System.out.print("Enter film rental rate: ");
+        double rentalRate = Double.parseDouble(scan.nextLine());
+
+        // Create a new Film object and set its data.
         Film film = new Film();
-        film.setTitle("Coraline");
-        film.setRentalRate(8.99);
+        film.setTitle(title);
+        film.setRentalRate(rentalRate);
 
+        // Add the new film to the DAO (which stores it in memory).
         filmDao.add(film);
+
+        // Let the user know that the film was added.
+        System.out.println("Film added successfully.");
 
     }
 
