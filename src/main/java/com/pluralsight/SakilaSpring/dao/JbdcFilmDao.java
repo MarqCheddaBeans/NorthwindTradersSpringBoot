@@ -15,12 +15,8 @@ import java.util.List;
 @Component
 public class JbdcFilmDao implements IFilmDao{
 
-    private DataSource ds;
-
     @Autowired
-    public JbdcFilmDao(DataSource ds) {
-        this.ds = ds;
-    }
+    private DataSource ds;
 
     @Override
     public void add(Film film) {

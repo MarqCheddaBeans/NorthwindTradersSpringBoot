@@ -5,22 +5,28 @@ import com.pluralsight.SakilaSpring.models.Film;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-public class HomeController {
+public class FilmController {
 
     @Autowired
     @Qualifier("jbdcFilmDao")
-    private IFilmDao filmDao;
+    IFilmDao fDao;
 
-    @GetMapping("/")
-    public String index(){
-        return "this is magic";
+    @GetMapping("/films")
+    public List<Film> allFilms(){
+        return fDao.getAll();
     }
 
+    @PostMapping("/films")
+    public void addFilm(@RequestBody Film film){
+        fDao.add(film);
+    }
 
 
 }
